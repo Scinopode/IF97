@@ -13,16 +13,14 @@ int main() {
 
 	IF97 eos;
 
-	for (double p=8000.0; p<11000.0; p+=100)
-		{
-			std::cout << p << " " << eos.Density(p,320.0) << std::endl;
-		}
+	std::cout << eos.Density(100000,300) << std::endl;
+	std::cout << eos.Density(100000,500) << std::endl;
+	std::cout << eos.Density(1000000,1200) << std::endl;
 
 
-
-	for (double p=100000; p<1000000; p+=100000)
+	for (double T=280; T<400; T+=1)
 	{
-		std::cout << p << "  " << eos.Density(p,500) << std::endl;
+		std::cout << T << "  " << eos.Density(1e5,T) << std::endl;
 	}
 
 
