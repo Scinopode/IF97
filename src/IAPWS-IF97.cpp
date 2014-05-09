@@ -1,10 +1,11 @@
-//============================================================================
-// Name        : EOS-Tester.cpp
-// Author      : 
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+/******************************************************************************
+ *
+ * Name        : IAPWS-IF97
+ * Author      : Norbert Boettcher
+ *             : May 2014
+ * Description : Industrial Formulation 1997 of the Thermodynamic Properties of
+ *               Water and Steam
+ ******************************************************************************/
 
 #include <iostream>
 #include <numeric>
