@@ -460,25 +460,3 @@ double IF97::Density( double p, double T)
 	}
 
 }
-
-
-
-int main() {
-
-	IF97 eos;
-
-	for (double p=8000.0; p<11000.0; p+=100)
-		{
-			std::cout << p << " " << eos.Density(p,320.0) << std::endl;
-		}
-
-
-
-	for (double p=100000; p<1000000; p+=100000)
-	{
-		std::cout << p << "  " << eos.Density(p,500) << std::endl;
-	}
-
-
-	return 0;
-}
