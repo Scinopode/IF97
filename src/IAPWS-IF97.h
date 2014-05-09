@@ -10,20 +10,17 @@
 
 class IF97{
 private:
-	void GetIF97Parameters();
-	double nB23[5];
 
-	double nRegion1[34];
-	double IRegion1[34];
-	double JRegion1[34];
+	static const double nB23[5];
+	static const double nRegion1[34];
+	static const double nRegion2[43];
+	static const double nRegion4[10];
 
-	double nRegion2[43];
-	double IRegion2[43];
-	double JRegion2[43];
+	static const short IRegion1[34];
+	static const short IRegion2[43];
 
-	double nRegion4[10];
-
-	static const double a[3];
+	static const short JRegion1[34];
+	static const short JRegion2[43];
 
 	static const double specificGasConstant = 0.461526e3; // J/kg/K
 	static const double criticalTemperature = 647.096; //K
