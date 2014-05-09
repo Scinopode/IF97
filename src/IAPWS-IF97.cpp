@@ -398,7 +398,7 @@ void IF97::GetIF97Parameters()
 
 /**************************************************************************************************************
  *  The Saturation-Pressure Equation
- *  International Assosiation for the Properties of water and Steam
+ *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
  *
  *  Revised Release, August 2007
@@ -422,7 +422,7 @@ double IF97::SaturationPressure( double T)
 
 /**************************************************************************************************************
  *  The Saturation-Temperature Equation (Backward Equation)
- *  International Assosiation for the Properties of water and Steam
+ *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
  *
  *  Revised Release, August 2007
@@ -451,7 +451,7 @@ double IF97::SaturationTemperature( double p)
 
 /**************************************************************************************************************
  *  Auxiliary Equation for the boundary between region 2 and region 3
- *  International Assosiation for the Properties of water and Steam
+ *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
  *
  *	pressure version
@@ -464,7 +464,7 @@ double IF97::B23Equation_p ( double T)
 }
 /**************************************************************************************************************
  *  Auxiliary Equation for the boundary between region 2 and region 3
- *  International Assosiation for the Properties of water and Steam
+ *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
  *
  *	temperature version
@@ -476,6 +476,15 @@ double IF97::B23Equation_T (const  double p) const
 	return nB23[3]+sqrt((p-nB23[4])/nB23[2]);  // temperature in K
 }
 
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy gamma for region 1
+ *  International Association for the Properties of water and Steam
+ *  Industrial Formulation 1997
+ *
+ *	temperature version
+ *  Revised Release, August 2007
+ *  Author: NB, May 2014
+ **************************************************************************************************************/
 
 double IF97::gamma_p_region1(double p, double T)
 {
