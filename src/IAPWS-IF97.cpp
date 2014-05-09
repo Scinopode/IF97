@@ -481,11 +481,9 @@ double IF97::B23Equation_T (const  double p) const
  *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
  *
- *	temperature version
  *  Revised Release, August 2007
  *  Author: NB, May 2014
  **************************************************************************************************************/
-
 double IF97::gamma_p_region1(double p, double T)
 {
 	double gamma_p = 0;
@@ -510,7 +508,7 @@ double IF97::gamma_p_r_region2(double p, double T)
 	double gamma_p = 0;
 	double pi = p/p_star_Region2;
 	double tau = T_star_Region2/T;
-	for (size_t i=0; i<34; i++)
+	for (size_t i=0; i<42; i++)
 	{
 		gamma_p += nRegion2[i]*IRegion2[i]*pow(pi,IRegion2[i]-1)*pow(tau-0.5,JRegion1[i]);
 	}
