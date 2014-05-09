@@ -515,25 +515,31 @@ double IF97::gamma_p_r_region2(double p, double T)
 	return gamma_p;
 }
 
+/**************************************************************************************************************
+ *  Density Equation
+ *  International Association for the Properties of water and Steam
+ *  Industrial Formulation 1997
+ *
+ *  Revised Release, August 2007
+ *  Author: NB, May 2014
+ **************************************************************************************************************/
 
 double IF97::Density( double p, double T)
 {
-	short Region = RegionSelection(p,T);
-	assert(Region==1||Region==2);
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
 
-	double density = -1;
 	switch (Region)
 	{
 	case 1:
-		density = 1/(specificGasConstant*T/p_star_Region1*gamma_p_region1(p,T));
+		return 1/(specificGasConstant*T/p_star_Region1*gamma_p_region1(p,T));
 		break;
 	case 2:
-		density = 1/(specificGasConstant*T/p_star_Region1*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T)));
+		return 1/(specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T)));
 		break;
 	default: return -1;
 	}
 
-    return density;
 }
 
 
