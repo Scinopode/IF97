@@ -69,8 +69,8 @@ private:
 	short RegionSelection (const double p,const  double T) const;
 
 	// curves determining the border between region 2 and region 3
-	double B23Equation_T (const double T) const;
-	double B23Equation_p (const double p) const;
+	double B23Equation_T (const double p) const;
+	double B23Equation_p (const double T) const;
 
 public:
 	IF97();
