@@ -57,7 +57,7 @@ IF97::IF97(){}
 
 
 
-short IF97::RegionSelection (double p, double T)
+short IF97::RegionSelection (const double p, const double T) const
 {
 	short Region = -1;
 	const double saturationPressure = SaturationPressure(T);
@@ -96,7 +96,7 @@ short IF97::RegionSelection (double p, double T)
  *  Revised Release, August 2007
  *  Author: NB, May 2014
  **************************************************************************************************************/
-double IF97::SaturationPressure( double T)
+double IF97::SaturationPressure( const double T) const
 {
 	if ((T<273.15)||(T>647.096))
 		return -1;
@@ -120,7 +120,7 @@ double IF97::SaturationPressure( double T)
  *  Revised Release, August 2007
  *  Author: NB, May 2014
  **************************************************************************************************************/
-double IF97::SaturationTemperature( double p)
+double IF97::SaturationTemperature(const  double p) const
 {
 	if ((p>=611.213)&&(p<=22064000.0))
 	{
@@ -150,7 +150,7 @@ double IF97::SaturationTemperature( double p)
  *  Revised Release, August 2007
  *  Author: NB, May 2014
  **************************************************************************************************************/
-double IF97::B23Equation_p ( double T)
+double IF97::B23Equation_p (const  double T) const
 {
 	return (nB23[0]+nB23[1]*T+nB23[2]*T*T) * 1e6;  // Pressure in Pa
 }
@@ -176,7 +176,7 @@ double IF97::B23Equation_T (const  double p) const
  *  Revised Release, August 2007
  *  Author: NB, May 2014
  **************************************************************************************************************/
-double IF97::gamma_p_region1(double p, double T)
+double IF97::gamma_p_region1(const double p, const double T) const
 {
 	double gamma_p = 0;
 	double pi = p/p_star_Region1;
@@ -190,12 +190,12 @@ double IF97::gamma_p_region1(double p, double T)
 	return gamma_p;
 }
 
-double IF97::gamma_p_0_region2(double p)
+double IF97::gamma_p_0_region2(const double p) const
 {
 	return p_star_Region2/p;
 }
 
-double IF97::gamma_p_r_region2(double p, double T)
+double IF97::gamma_p_r_region2(const double p, const double T) const
 {
 	double gamma_p = 0;
 	double pi = p/p_star_Region2;
@@ -216,7 +216,7 @@ double IF97::gamma_p_r_region2(double p, double T)
  *  Author: NB, May 2014
  **************************************************************************************************************/
 
-double IF97::Density( double p, double T)
+double IF97::Density( const double p, const double T) const
 {
 	const short Region = RegionSelection(p,T);
 	assert(Region>=1&&Region<=5);

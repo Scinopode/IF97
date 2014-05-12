@@ -40,54 +40,54 @@ private:
 	static const double T_star_Region4 = 1; // Pa
 
 	// Gibbs energy function and its derivatives for Region 1
-	double gamma_region1 (double p, double T);
-	double gamma_p_region1 (double p, double T);
-	double gamma_pp_region1 (double p, double T);
-	double gamma_t_region1 (double p, double T);
-	double gamma_tt_region1 (double p, double T);
-	double gamma_pt_region1 (double p, double T);
+	double gamma_region1 (const double p, const double T) const;
+	double gamma_p_region1 (const double p, const double T) const;
+	double gamma_pp_region1 (double p, const double T) const;
+	double gamma_t_region1 (double p, const double T) const;
+	double gamma_tt_region1 (double p, const double T) const;
+	double gamma_pt_region1 (double p, const double T) const;
 
 
 	// Gibbs energy function and its derivatives for Region 2
-	double gamma_0_region2 (double p, double T);
-	double gamma_p_0_region2 (double p);
-	double gamma_pp_0_region2 (double p);
-	double gamma_t_0_region2 (double T);
-	double gamma_tt_0_region2 (double T);
-	double gamma_pt_0_region2 (void);
+	double gamma_0_region2 (const double p, const double T) const;
+	double gamma_p_0_region2 (const double p) const;
+	double gamma_pp_0_region2 (const double p) const;
+	double gamma_t_0_region2 (const double T) const;
+	double gamma_tt_0_region2 (const double T) const;
+	double gamma_pt_0_region2 (void) const;
 
-	double gamma_r_region2 (double p, double T);
-	double gamma_p_r_region2 (double p, double T);
-	double gamma_pp_r_region2 (double p, double T);
-	double gamma_t_r_region2 (double p, double T);
-	double gamma_tt_r_region2 (double p, double T);
-	double gamma_pt_r_region2 (double p, double T);
+	double gamma_r_region2 (const double p, const double T) const;
+	double gamma_p_r_region2 (const double p,const  double T) const;
+	double gamma_pp_r_region2 (const double p,const  double T) const;
+	double gamma_t_r_region2 (const double p,const  double T) const;
+	double gamma_tt_r_region2 (const double p,const  double T) const;
+	double gamma_pt_r_region2 (const double p,const  double T) const;
 
 
-	short RegionSelection (double p, double T);
+	short RegionSelection (const double p,const  double T) const;
 
 	// curves determining the border between region 2 and region 3
 	double B23Equation_T (const double T) const;
-	double B23Equation_p (double p);
+	double B23Equation_p (const double p) const;
 
 public:
 	IF97();
 
-	double Density( double p, double T);
+	double Density( const double p, const double T) const;
 
-	double SpecificEntropy ( double p, double T);
-	double SpecificInternalEnergy ( double p, double T);
-	double SpecificEnthalpy ( double p, double T);
-	double SpecificIsobaricHeatcapacity ( double p, double T);
-	double SpecificIsochoricHeatcapacity ( double p, double T);
-	double SpeedOfSound ( double p, double T);
+	double SpecificEntropy ( const double p, const double T) const;
+	double SpecificInternalEnergy ( const double p, const double T) const;
+	double SpecificEnthalpy ( const double p, const double T) const;
+	double SpecificIsobaricHeatcapacity ( const double p, const double T) const;
+	double SpecificIsochoricHeatcapacity ( const double p, const double T) const;
+	double SpeedOfSound ( const double p, const double T) const;
 
 
 
-	double SpecificVolume( double p, double T);
+	double SpecificVolume( const double p, const double T) const;
 
-	double SaturationPressure (double T);
-	double SaturationTemperature (double p);
+	double SaturationPressure (const double T) const;
+	double SaturationTemperature (const double p) const;
 
 
 };
