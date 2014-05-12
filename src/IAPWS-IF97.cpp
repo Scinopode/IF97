@@ -276,3 +276,28 @@ double IF97::Density( const double p, const double T) const
 	}
 
 }
+
+/**************************************************************************************************************
+ *  Specific Volume Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificVolume( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+		return specificGasConstant*T/p_star_Region1*gamma_p_region1(p,T);
+		break;
+	case 2:
+		return specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T));
+		break;
+	default: return -1;
+	}
+
+}
+
