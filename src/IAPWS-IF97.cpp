@@ -61,37 +61,28 @@ const short IF97::J0Region2[9] = {0, 1, -5, -4, -3, -2, -1, 2, 3};
  ******************************************************************************************************/
 IF97::IF97(){}
 
-
-
 short IF97::RegionSelection (const double p, const double T) const
 {
-	short Region = -1;
+	//Region 5:
+	if ((T>=1073.15)&&(T<=2273.15)&&(p>=0)&&(p<=50e6))
+		return 5;
+	//Region 1:
 	const double saturationPressure = SaturationPressure(T);
+	if ((T>=273.15)&&(T<=623.15)&&(p>=saturationPressure)&&(p<=100e6))
+		return 1;
+	//Region 2:
+	const double p_B23 = B23Equation_p(T);
+	if (
+			((T>=273.15)&&(T<=623.15)  && (p>=0) && (p<=saturationPressure)) ||
+			((T>623.15) &&(T<=863.15)  && (p>0)  && (p<p_B23)) ||
+			((T>863.15) &&(T<=1073.15) && (p>0)  && (p<100e6))	)
+		return 2;
+	//Region 3:
+	const double T_B23 = B23Equation_T(p);
+	if ((T>623.15)&&(T<T_B23)&&(p>=p_B23)&&(p<=100e6))
+		return 3;
 
-	if ((T>=273.15)&&(T<=623.15))
-	{
-		if ((p>=saturationPressure)&&(p<=100e6))
-			return 1;
-		else if ((p>0)&&(p<=saturationPressure))
-			Region = 2;
-	}
-	else if ((T>623.15)&&(T<=863.15))
-	{
-		if ((p>0)&&(p<=B23Equation_p(T)))
-			Region = 2;
-	}
-	else if ((T>863.15)&&(T<=1073.15))
-	{
-		if ((p>0)&&(p<=100e6))
-			Region = 2;
-	}
-	else if ((T>=1073.15)&&(T<=2273.15))
-	{
-		if ((p>0)&&(p<=50e6))
-			Region = 5;
-	}
-
-	return Region;
+	return -1;
 }
 
 /**************************************************************************************************************
