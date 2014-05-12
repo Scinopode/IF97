@@ -523,3 +523,52 @@ double IF97::SpecificIsobaricHeatcapacity( const double p, const double T) const
 	}
 
 }
+/**************************************************************************************************************
+ *  Speed of Sound Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpeedOfSound( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+	{
+		double gamma_p = gamma_p_region1(p,T);
+		double gamma_pp = gamma_pp_region1(p,T);
+		double gamma_pt = gamma_pt_region1(p,T);
+		double gamma_tt = gamma_tt_region1(p,T);
+		double tau = T_star_Region1/T;
+
+		return sqrt(gamma_p*gamma_p*specificGasConstant*T/((gamma_p-tau*gamma_pt)*(gamma_p-tau*gamma_pt)/(tau*tau*gamma_tt)-gamma_pp));
+		break;
+	}
+	case 2:
+	{
+		double gamma_p_r = gamma_p_r_region2(p,T);
+		double gamma_pp_r = gamma_pp_r_region2(p,T);
+		double gamma_pt_r = gamma_pt_r_region2(p,T);
+		double gamma_tt_0 = gamma_tt_0_region2(T);
+		double gamma_tt_r = gamma_tt_r_region2(p,T);
+
+		double tau = T_star_Region2/T;
+		double pi = p/p_star_Region2;
+
+		return sqrt(specificGasConstant*T*
+				(1+2*pi*gamma_p_r+pi*pi*gamma_p_r*gamma_p_r)/
+				( (1-pi*pi*gamma_pp_r)+ (1+pi*gamma_p_r-tau*pi*gamma_pt_r)*(1+pi*gamma_p_r-tau*pi*gamma_pt_r)/(tau*tau*(gamma_tt_0+gamma_tt_r)) )
+				);
+
+		break;
+	}
+
+	case 3:
+		return -1;
+		break;
+	default: return -1;
+	}
+}
