@@ -301,3 +301,26 @@ double IF97::SpecificVolume( const double p, const double T) const
 
 }
 
+/**************************************************************************************************************
+ *  Specific isobaric heat capacity
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificIsobaricHeatcapacity( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+		return -(specificGasConstant*(T_star_Region1/T)*(T_star_Region1/T)*gamma_tt_region1(p, T));
+		break;
+	case 2:
+		return -(specificGasConstant*(T_star_Region2/T)*(T_star_Region2/T)*(gamma_tt_0_region2(T)+gamma_tt_r_region2(p,T)));
+		break;
+	default: return -1;
+	}
+
+}
