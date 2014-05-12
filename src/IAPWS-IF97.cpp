@@ -214,6 +214,43 @@ double IF97::gamma_p_r_region2(const double p, const double T) const
 }
 
 /**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - ideal part
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_tt_0_region2(const double T) const
+{
+	double gamma_p = 0;
+	double tau = T_star_Region2/T;
+
+	for (size_t i=0; i<9; i++)
+	{
+		gamma_p += n0Region2[i]*J0Region2[i]*(J0Region2[i]-1)*pow(tau, J0Region2[i]-2);
+	}
+
+	return gamma_p;
+}
+
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - real part
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_tt_r_region2(const double p, const double T) const
+{
+	double gamma_p = 0;
+	double pi = p/p_star_Region2;
+	double tau = T_star_Region2/T;
+
+	for (size_t i=0; i<43; i++)
+	{
+		gamma_p += nRegion2[i]*pow(pi, IRegion2[i])*JRegion2[i]*(JRegion2[i]-1)*pow(tau-0.5, JRegion2[i]-2.);
+	}
+
+	return gamma_p;
+}
  *  Density Equation
  *  International Association for the Properties of water and Steam
  *  Industrial Formulation 1997
