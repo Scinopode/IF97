@@ -195,7 +195,25 @@ double IF97::gamma_p_region1(const double p, const double T) const
 
 	return gamma_p;
 }
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 1
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_tt_region1(const double p, const double T) const
+{
+	double gamma_p = 0;
+	double pi = p/p_star_Region1;
+	double tau = T_star_Region1/T;
 
+	for (size_t i=0; i<34; i++)
+	{
+		gamma_p += nRegion1[i]*pow(7.1-pi, IRegion1[i])*JRegion1[i]*(JRegion1[i]-1.)*pow(tau-1.222, JRegion1[i]-2.);
+	}
+
+	return gamma_p;
+}
 double IF97::gamma_p_0_region2(const double p) const
 {
 	return p_star_Region2/p;
