@@ -524,6 +524,127 @@ double IF97::SpecificIsobaricHeatcapacity( const double p, const double T) const
 
 }
 /**************************************************************************************************************
+ *  Specific Entrpoy Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificEntropy( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+		return specificGasConstant*(T_star_Region1/T*gamma_t_region1(p,T)-gamma_region1(p,T));
+		break;
+	case 2:
+		return specificGasConstant*(T_star_Region1/T*(gamma_t_0_region2(T)+gamma_t_r_region2(p,T))-(gamma_0_region2(p,T)+gamma_r_region2(p,T)));
+		break;
+	case 3:
+		return -1;
+		break;
+	default: return -1;
+	}
+}
+/**************************************************************************************************************
+ *  Specific Isochoric Heat Capacity Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificIsochoricHeatcapacity( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+	{
+		double tau = T_star_Region1/T;
+		double gamma_x = (gamma_p_region1(p,T)-tau*gamma_pt_region1(p,T));
+		return specificGasConstant*(-1*tau*tau*gamma_tt_region1(p,T)+(gamma_x*gamma_x/gamma_pp_region1(p,T)));
+		break;
+	}
+	case 2:
+	{
+		double tau = T_star_Region2/T;
+		double pi = p/p_star_Region2;
+		double gamma_x = (1+pi*gamma_p_r_region2(p,T)-tau*pi*gamma_pt_r_region2(p,T));
+		return specificGasConstant*	(
+				-1*tau*tau*(gamma_tt_0_region2(T)+gamma_tt_r_region2(p,T))
+				-(gamma_x*gamma_x/(1-pi*pi*gamma_pp_r_region2(p,T))));
+		break;
+	}
+
+	case 3:
+		return -1;
+		break;
+	default: return -1;
+	}
+}
+/**************************************************************************************************************
+ *  Specific Internal Energy Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificInternalEnergy( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+	{
+		double pi = p/p_star_Region1;
+		double tau = T_star_Region1/T;
+		return specificGasConstant*T*(tau*gamma_t_region1(p,T)-pi*gamma_p_region1(p,T));
+		break;
+	}
+	case 2:
+	{
+		double pi = p/p_star_Region2;
+		double tau = T_star_Region2/T;
+		return specificGasConstant*T*(tau*(gamma_t_0_region2(T)-gamma_t_r_region2(p,T))-pi*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T)));
+		break;
+	}
+
+	case 3:
+		return -1;
+		break;
+	default: return -1;
+	}
+}
+/**************************************************************************************************************
+ *  Specific Enthalpy Equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::SpecificEnthalpy( const double p, const double T) const
+{
+	const short Region = RegionSelection(p,T);
+	assert(Region>=1&&Region<=5);
+
+	switch (Region)
+	{
+	case 1:
+		return specificGasConstant*T_star_Region1*gamma_t_region1(p,T);
+		break;
+	case 2:
+		return specificGasConstant*T_star_Region2*(gamma_t_0_region2(T)+gamma_t_r_region2(p,T));
+		break;
+	case 3:
+		return -1;
+		break;
+	default: return -1;
+	}
+}
+/**************************************************************************************************************
  *  Speed of Sound Equation
  *  IAPWS-IF97
  *  Revised Release, August 2007
