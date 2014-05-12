@@ -175,12 +175,10 @@ double IF97::B23Equation_T (const  double p) const
 }
 
 /**************************************************************************************************************
- *  Dimensionless Gibbs free energy gamma for region 1
- *  International Association for the Properties of water and Steam
- *  Industrial Formulation 1997
- *
- *  Revised Release, August 2007
- *  Author: NB, May 2014
+ *  Dimensionless Gibbs free energy for region 1
+ *  First derivative with respect to specific pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
  **************************************************************************************************************/
 double IF97::gamma_p_region1(const double p, const double T) const
 {
@@ -214,6 +212,12 @@ double IF97::gamma_tt_region1(const double p, const double T) const
 
 	return gamma_p;
 }
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - ideal part
+ *  First derivative with respect to specific pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
 double IF97::gamma_p_0_region2(const double p) const
 {
 	return p_star_Region2/p;
@@ -274,14 +278,12 @@ double IF97::gamma_tt_r_region2(const double p, const double T) const
 
 	return gamma_p;
 }
+/**************************************************************************************************************
  *  Density Equation
- *  International Association for the Properties of water and Steam
- *  Industrial Formulation 1997
- *
+ *  IAPWS-IF97
  *  Revised Release, August 2007
- *  Author: NB, May 2014
+ *  NB, May 2014
  **************************************************************************************************************/
-
 double IF97::Density( const double p, const double T) const
 {
 	const short Region = RegionSelection(p,T);

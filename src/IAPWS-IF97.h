@@ -14,6 +14,7 @@ private:
 	static const double nB23[5];
 	static const double nRegion1[34];
 	static const double nRegion2[43];
+	static const double n0Region2[9];
 	static const double nRegion4[10];
 
 	static const short IRegion1[34];
@@ -21,6 +22,7 @@ private:
 
 	static const short JRegion1[34];
 	static const short JRegion2[43];
+	static const short J0Region2[9];
 
 	static const double specificGasConstant = 0.461526e3; // J/kg/K
 	static const double criticalTemperature = 647.096; //K
@@ -74,7 +76,6 @@ public:
 	IF97();
 
 	double Density( const double p, const double T) const;
-
 	double SpecificEntropy ( const double p, const double T) const;
 	double SpecificInternalEnergy ( const double p, const double T) const;
 	double SpecificEnthalpy ( const double p, const double T) const;
