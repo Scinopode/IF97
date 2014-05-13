@@ -65,6 +65,13 @@ private:
 	double gamma_tt_r_region2 (const double p,const  double T) const;
 	double gamma_pt_r_region2 (const double p,const  double T) const;
 
+	// specific Helmholtz free energy function and its derivatives for Region 3
+	double phi_region3 (const double rho, const double T) const;
+	double phi_d_region3 (const double rho, const double T) const;
+	double phi_t_region3 (const double rho, const double T) const;
+	double phi_dd_region3 (const double rho, const double T) const;
+	double phi_tt_region3 (const double rho, const double T) const;
+	double phi_dt_region3 (const double rho, const double T) const;
 
 	short RegionSelection (const double p,const  double T) const;
 

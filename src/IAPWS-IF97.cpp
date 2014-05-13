@@ -462,6 +462,125 @@ double IF97::gamma_pt_r_region2(const double p, const double T) const
 	return gamma_pt;
 }
 /**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  basic function
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi = nRegion3[0]*log(delta);
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi += nRegion3[i]*pow(delta, IRegion3[i])*pow(tau, JRegion3[i]);
+	}
+
+	return phi;
+}
+/**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  First derivative with respect to specific density
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_d_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi_d = nRegion3[0]/delta;
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi_d += nRegion3[i]*IRegion3[i]*pow(delta, IRegion3[i]-1)*pow(tau, JRegion3[i]);
+	}
+
+	return phi_d;
+}
+/**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  Second derivative with respect to specific density
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_dd_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi_dd = -nRegion3[0]/delta/delta;
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi_dd += nRegion3[i]*IRegion3[i]*(IRegion3[i]-1)*pow(delta, IRegion3[i]-2)*pow(tau, JRegion3[i]);
+	}
+
+	return phi_dd;
+}
+/**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_tt_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi_tt = 0;
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi_tt += nRegion3[i]*pow(delta, IRegion3[i])*JRegion3[i]*(JRegion3[i]-1)*pow(tau, JRegion3[i]-2);
+	}
+
+	return phi_tt;
+}
+/**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  Second derivative with respect to specific density and temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_dt_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi_dt = 0;
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi_dt += nRegion3[i]*IRegion3[i]*pow(delta, IRegion3[i]-1)*JRegion3[i]*pow(tau, JRegion3[i]-1);
+	}
+
+	return phi_dt;
+}
+/**************************************************************************************************************
+ *  Dimensionless Helmholtz free energy for region 3
+ *  First derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::phi_t_region3 (const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+	double tau = criticalTemperature/T;
+
+	double phi_t = 0;
+
+	for (size_t i=1; i<40; i++)
+	{
+		phi_t += nRegion3[i]*pow(delta, IRegion3[i])*JRegion3[i]*pow(tau, JRegion3[i]-1);
+	}
+
+	return phi_t;
+}
  *  Density Equation
  *  IAPWS-IF97
  *  Revised Release, August 2007
