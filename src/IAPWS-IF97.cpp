@@ -782,6 +782,12 @@ double IF97::Density( const double p, const double T) const
 	default: return -1;
 	}
 }
+/**************************************************************************************************************
+ *  Iterative Density function for region 3 (Bisection method)
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
 
 double IF97::DensityBisectionR3(const double p, const double T) const
 {
@@ -792,32 +798,31 @@ double IF97::DensityBisectionR3(const double p, const double T) const
 	double fa = p-PressureRegion3(a,T);
 	double fb = p-PressureRegion3(b,T);
 
-if (fa*fb>0)
-{
-	std::cout << "Error in Bisection iteration method. No root within given interval.\n";
-	return -1;
-}
-
-int iteration = 0;
-const int maxIteration = 1000;
-
-while (iteration < maxIteration)
-{
-	double c = 0.5*(a+b);
-	double fc = p-PressureRegion3(c,T);
-
-	if (fabs(fc) < eps)
+	if (fa*fb>0)
 	{
-		return c;
+		std::cout << "Error in Bisection iteration method. No root within given interval.\n";
+		return -1;
 	}
-	if (fa*fc > 0)
-		a=c;
-	else
-		b=c;
 
-}
-return -1;
+	int iteration = 0;
+	const int maxIteration = 1000;
 
+	while (iteration < maxIteration)
+	{
+		double c = 0.5*(a+b);
+		double fc = p-PressureRegion3(c,T);
+
+		if (fabs(fc) < eps)
+		{
+			return c;
+		}
+		if (fa*fc > 0)
+			a=c;
+		else
+			b=c;
+
+	}
+	return -1;
 }
 
 /**************************************************************************************************************
@@ -838,6 +843,12 @@ double IF97::SpecificVolume( const double p, const double T) const
 		break;
 	case 2:
 		return specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T));
+		break;
+	case 3:
+		return 1.0/DensityBisectionR3(p,T);
+		break;
+	case 5:
+		return specificGasConstant*T/p_star_Region5*(gamma_p_0_region5(p)+gamma_p_r_region5(p,T));
 		break;
 	default: return -1;
 	}
