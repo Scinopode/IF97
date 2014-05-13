@@ -15,14 +15,22 @@ private:
 	static const double nRegion1[34];
 	static const double nRegion2[43];
 	static const double n0Region2[9];
+	static const double nRegion3[40];
 	static const double nRegion4[10];
+	static const double n0Region5[6];
+	static const double nRegion5[6];
 
 	static const short IRegion1[34];
 	static const short IRegion2[43];
+	static const short IRegion3[40];
+	static const short IRegion5[6];
 
 	static const short JRegion1[34];
 	static const short JRegion2[43];
 	static const short J0Region2[9];
+	static const short JRegion3[40];
+	static const short J0Region5[6];
+	static const short JRegion5[6];
 
 	static const double specificGasConstant = 0.461526e3; // J/kg/K
 	static const double criticalTemperature = 647.096; //K
@@ -35,11 +43,14 @@ private:
 	static const double p_star_Region1 = 16.53e6; // Pa
 	static const double p_star_Region2 = 1.0e6; // Pa
 	static const double p_star_Region4 = 1.0e6; // Pa
+	static const double p_star_Region5 = 1.0e6; // Pa
 
 
-	static const double T_star_Region1 = 1386; // Pa
-	static const double T_star_Region2 = 540; // Pa
-	static const double T_star_Region4 = 1; // Pa
+
+	static const double T_star_Region1 = 1386; // K
+	static const double T_star_Region2 = 540; // K
+	static const double T_star_Region4 = 1; // K
+	static const double T_star_Region5 = 1000; // K
 
 	// Gibbs energy function and its derivatives for Region 1
 	double gamma_region1 (const double p, const double T) const;
@@ -85,6 +96,8 @@ private:
 	double gamma_pp_r_region5(const double p, const double T) const;
 
 	short RegionSelection (const double p,const  double T) const;
+	double PressureRegion3( const double rho, const double T) const;
+
 
 	// curves determining the border between region 2 and region 3
 	double B23Equation_T (const double p) const;
@@ -94,6 +107,8 @@ public:
 	IF97();
 
 	double Density( const double p, const double T) const;
+	double DensityBisectionR3(const double p, const double T) const;
+
 	double SpecificEntropy ( const double p, const double T) const;
 	double SpecificInternalEnergy ( const double p, const double T) const;
 	double SpecificEnthalpy ( const double p, const double T) const;
