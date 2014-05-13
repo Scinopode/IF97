@@ -773,6 +773,12 @@ double IF97::Density( const double p, const double T) const
 	case 2:
 		return 1/(specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T)));
 		break;
+	case 3:
+		return DensityBisectionR3(p,T);
+		break;
+	case 5:
+		return 1/(specificGasConstant*T/p_star_Region5*(gamma_p_0_region5(p)+gamma_p_r_region5(p,T)));
+		break;
 	default: return -1;
 	}
 }
