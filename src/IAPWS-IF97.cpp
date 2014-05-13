@@ -874,6 +874,23 @@ double IF97::SpecificIsobaricHeatcapacity( const double p, const double T) const
 	case 2:
 		return -(specificGasConstant*(T_star_Region2/T)*(T_star_Region2/T)*(gamma_tt_0_region2(T)+gamma_tt_r_region2(p,T)));
 		break;
+	case 3:
+	{
+		double rho = DensityBisectionR3(p,T);
+		double delta = rho/criticalDensity;
+		double tau = criticalTemperature/T;
+		double phi_d = phi_d_region3(rho,T);
+		double phi_tt = phi_tt_region3(rho,T);
+		double phi_dd = phi_dd_region3(rho,T);
+		double phi_dt = phi_dt_region3(rho,T);
+
+		return specificGasConstant*(-tau*tau*phi_tt*(delta*phi_d-delta*tau*phi_dt)*(delta*phi_d-delta*tau*phi_dt)/(2*delta*phi_d+delta*delta*phi_dd));
+
+		break;
+	}
+	case 5:
+		return -(specificGasConstant*(T_star_Region5/T)*(T_star_Region5/T)*(gamma_tt_0_region5(T)+gamma_tt_r_region5(p,T)));
+		break;
 	default: return -1;
 	}
 
@@ -895,10 +912,17 @@ double IF97::SpecificEntropy( const double p, const double T) const
 		return specificGasConstant*(T_star_Region1/T*gamma_t_region1(p,T)-gamma_region1(p,T));
 		break;
 	case 2:
-		return specificGasConstant*(T_star_Region1/T*(gamma_t_0_region2(T)+gamma_t_r_region2(p,T))-(gamma_0_region2(p,T)+gamma_r_region2(p,T)));
+		return specificGasConstant*(T_star_Region2/T*(gamma_t_0_region2(T)+gamma_t_r_region2(p,T))-(gamma_0_region2(p,T)+gamma_r_region2(p,T)));
 		break;
 	case 3:
+	{
+		double rho = DensityBisectionR3(p,T);
+		return specificGasConstant*(criticalTemperature*phi_t_region3(rho,T)-phi_region3(rho,T));
+	}
 		return -1;
+		break;
+	case 5:
+		return specificGasConstant*(T_star_Region5/T*(gamma_t_0_region5(T)+gamma_t_r_region5(p,T))-(gamma_0_region5(p,T)+gamma_r_region5(p,T)));
 		break;
 	default: return -1;
 	}
@@ -937,6 +961,16 @@ double IF97::SpecificIsochoricHeatcapacity( const double p, const double T) cons
 	case 3:
 		return -1;
 		break;
+	case 5:
+	{
+		double tau = T_star_Region5/T;
+		double pi = p/p_star_Region5;
+		double gamma_x = (1+pi*gamma_p_r_region5(p,T)-tau*pi*gamma_pt_r_region5(p,T));
+		return specificGasConstant*	(
+				-1*tau*tau*(gamma_tt_0_region5(T)+gamma_tt_r_region5(p,T))
+				-(gamma_x*gamma_x/(1-pi*pi*gamma_pp_r_region5(p,T))));
+		break;
+	}
 	default: return -1;
 	}
 }
@@ -969,8 +1003,18 @@ double IF97::SpecificInternalEnergy( const double p, const double T) const
 	}
 
 	case 3:
-		return -1;
+	{
+		double rho = DensityBisectionR3(p,T);
+		return specificGasConstant*criticalTemperature*phi_t_region3(rho,T);
 		break;
+	}
+	case 5:
+	{
+		double pi = p/p_star_Region5;
+		double tau = T_star_Region5/T;
+		return specificGasConstant*T*(tau*(gamma_t_0_region5(T)-gamma_t_r_region5(p,T))-pi*(gamma_p_0_region5(p)+gamma_p_r_region5(p,T)));
+		break;
+	}
 	default: return -1;
 	}
 }
@@ -994,7 +1038,13 @@ double IF97::SpecificEnthalpy( const double p, const double T) const
 		return specificGasConstant*T_star_Region2*(gamma_t_0_region2(T)+gamma_t_r_region2(p,T));
 		break;
 	case 3:
-		return -1;
+	{
+		double rho = DensityBisectionR3(p,T);
+		return specificGasConstant*T*(criticalTemperature/T*phi_t_region3(rho,T)+rho/criticalDensity*phi_d_region3(rho,T));
+		break;
+	}
+	case 5:
+		return specificGasConstant*T_star_Region5*(gamma_t_0_region5(T)+gamma_t_r_region5(p,T));
 		break;
 	default: return -1;
 	}
@@ -1037,14 +1087,45 @@ double IF97::SpeedOfSound( const double p, const double T) const
 		return sqrt(specificGasConstant*T*
 				(1+2*pi*gamma_p_r+pi*pi*gamma_p_r*gamma_p_r)/
 				( (1-pi*pi*gamma_pp_r)+ (1+pi*gamma_p_r-tau*pi*gamma_pt_r)*(1+pi*gamma_p_r-tau*pi*gamma_pt_r)/(tau*tau*(gamma_tt_0+gamma_tt_r)) )
-				);
+		);
 
 		break;
 	}
 
 	case 3:
-		return -1;
+	{
+		double rho = DensityBisectionR3(p,T);
+		double delta = rho/criticalDensity;
+		double tau = criticalTemperature/T;
+
+		double phi_d = phi_d_region3(rho,T);
+		double phi_dd = phi_dd_region3(rho,T);
+		double phi_dt = phi_dt_region3(rho,T);
+		double phi_tt = phi_tt_region3(rho,T);
+
+		return sqrt(specificGasConstant*T*
+				(2*delta*phi_d+delta*delta*phi_dd-
+				((delta*phi_d-delta*tau*phi_dt)*(delta*phi_d-delta*tau*phi_dt))/(tau*tau*phi_tt)));
 		break;
+	}
+	case 5:
+	{
+		double gamma_p_r = gamma_p_r_region5(p,T);
+		double gamma_pp_r = gamma_pp_r_region5(p,T);
+		double gamma_pt_r = gamma_pt_r_region5(p,T);
+		double gamma_tt_0 = gamma_tt_0_region5(T);
+		double gamma_tt_r = gamma_tt_r_region5(p,T);
+
+		double tau = T_star_Region5/T;
+		double pi = p/p_star_Region5;
+
+		return sqrt(specificGasConstant*T*
+				(1+2*pi*gamma_p_r+pi*pi*gamma_p_r*gamma_p_r)/
+				( (1-pi*pi*gamma_pp_r)+ (1+pi*gamma_p_r-tau*pi*gamma_pt_r)*(1+pi*gamma_p_r-tau*pi*gamma_pt_r)/(tau*tau*(gamma_tt_0+gamma_tt_r)) )
+		);
+
+		break;
+	}
 	default: return -1;
 	}
 }
