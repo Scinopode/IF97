@@ -854,6 +854,18 @@ double IF97::SpecificVolume( const double p, const double T) const
 	}
 
 }
+/**************************************************************************************************************
+ *  Pressure function for region 3
+ *  IAPWS-IF97
+ *  Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::PressureRegion3( const double rho, const double T) const
+{
+	double delta = rho/criticalDensity;
+
+	return rho*specificGasConstant*T*delta*phi_d_region3(rho,T);
+}
 
 /**************************************************************************************************************
  *  Specific isobaric heat capacity
