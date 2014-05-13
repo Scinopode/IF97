@@ -775,6 +775,42 @@ double IF97::Density( const double p, const double T) const
 		break;
 	default: return -1;
 	}
+}
+
+double IF97::DensityBisectionR3(const double p, const double T) const
+{
+	double eps = 1e-3;
+	double a = 800;
+	double b = 1;
+
+	double fa = p-PressureRegion3(a,T);
+	double fb = p-PressureRegion3(b,T);
+
+if (fa*fb>0)
+{
+	std::cout << "Error in Bisection iteration method. No root within given interval.\n";
+	return -1;
+}
+
+int iteration = 0;
+const int maxIteration = 1000;
+
+while (iteration < maxIteration)
+{
+	double c = 0.5*(a+b);
+	double fc = p-PressureRegion3(c,T);
+
+	if (fabs(fc) < eps)
+	{
+		return c;
+	}
+	if (fa*fc > 0)
+		a=c;
+	else
+		b=c;
+
+}
+return -1;
 
 }
 
