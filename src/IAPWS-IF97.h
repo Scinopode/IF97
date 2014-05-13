@@ -72,6 +72,17 @@ private:
 	double phi_dd_region3 (const double rho, const double T) const;
 	double phi_tt_region3 (const double rho, const double T) const;
 	double phi_dt_region3 (const double rho, const double T) const;
+	// Gibbs energy function and its derivatives for Region 5
+	double gamma_0_region5 (const double p, const double T) const;
+	double gamma_r_region5 (const double p, const double T) const;
+	double gamma_p_0_region5(const double p) const;
+	double gamma_p_r_region5(const double p, const double T) const;
+	double gamma_t_0_region5(const double T) const;
+	double gamma_t_r_region5(const double p, const double T) const;
+	double gamma_tt_0_region5(const double T) const;
+	double gamma_tt_r_region5(const double p, const double T) const;
+	double gamma_pt_r_region5(const double p, const double T) const;
+	double gamma_pp_r_region5(const double p, const double T) const;
 
 	short RegionSelection (const double p,const  double T) const;
 

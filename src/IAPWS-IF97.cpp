@@ -581,6 +581,180 @@ double IF97::phi_t_region3 (const double rho, const double T) const
 
 	return phi_t;
 }
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - ideal part
+ *  Basic equation
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_0_region5(const double p, const double T) const
+{
+	double gamma_0 = 0;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_0 += n0Region5[i]*pow(tau, J0Region5[i]);
+	}
+
+	return log(p/p_star_Region5)+gamma_0;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - real part
+ *  Basic equation
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_r_region5(const double p, const double T) const
+{
+	double gamma = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+	for (size_t i=0; i<9; i++)
+	{
+		gamma += nRegion5[i]*pow(pi,IRegion5[i])*pow(tau-0.5,JRegion5[i]);
+	}
+	return gamma;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 5
+ *  First derivative with respect to specific pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_p_0_region5(const double p) const
+{
+	return p_star_Region5/p;
+
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - real part
+ *  first derivative with respect to specific pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_p_r_region5(const double p, const double T) const
+{
+	double gamma_p = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_p += nRegion5[i]*IRegion5[i]*pow(pi,IRegion5[i]-1)*pow(tau,JRegion5[i]);
+	}
+	return gamma_p;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - ideal part
+ *  First derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_t_0_region5(const double T) const
+{
+	double gamma_t = 0;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_t += n0Region5[i]*J0Region5[i]*pow(tau, J0Region5[i]-1);
+	}
+
+	return gamma_t;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - real part
+ *  first derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_t_r_region5(const double p, const double T) const
+{
+	double gamma_p = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_p += nRegion5[i]*pow(pi,IRegion5[i])*JRegion5[i]*pow(tau,JRegion5[i]-1);
+	}
+	return gamma_p;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 5 - ideal part
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_tt_0_region5(const double T) const
+{
+	double gamma_p = 0;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_p += n0Region5[i]*J0Region5[i]*(J0Region5[i]-1)*pow(tau, J0Region5[i]-2);
+	}
+
+	return gamma_p;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 5 - real part
+ *  Second derivative with respect to specific temperature
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_tt_r_region5(const double p, const double T) const
+{
+	double gamma_tt = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_tt += nRegion5[i]*pow(pi, IRegion5[i])*JRegion5[i]*(JRegion5[i]-1)*pow(tau, JRegion5[i]-2.);
+	}
+
+	return gamma_tt;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 5 - real part
+ *  Second derivative with respect to specific temperature and pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_pt_r_region5(const double p, const double T) const
+{
+	double gamma_pt = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<6; i++)
+	{
+		gamma_pt += nRegion5[i]*IRegion5[i]*pow(pi, IRegion5[i]-1)*JRegion5[i]*pow(tau, JRegion5[i]-1.);
+	}
+
+	return gamma_pt;
+}
+/**************************************************************************************************************
+ *  Dimensionless Gibbs free energy for region 2 - real part
+ *  Second derivative with respect to specific pressure
+ *  IAPWS-IF97 - Revised Release, August 2007
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::gamma_pp_r_region5(const double p, const double T) const
+{
+	double gamma_pp = 0;
+	double pi = p/p_star_Region5;
+	double tau = T_star_Region5/T;
+
+	for (size_t i=0; i<43; i++)
+	{
+		gamma_pp += nRegion5[i]*IRegion5[i]*(IRegion5[i]-1)*pow(pi, IRegion5[i]-2)*pow(tau, JRegion5[i]);
+	}
+
+	return gamma_pp;
+}
+/**************************************************************************************************************
  *  Density Equation
  *  IAPWS-IF97
  *  Revised Release, August 2007
