@@ -1161,6 +1161,28 @@ double IF97::lambda_0(const double T) const
 	return sqrt(_T)/lamda;
 }
 /**************************************************************************************************************
+ *  Lambda_1 equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::lambda_1(const double T, const double rho) const
+{
+	double _T = T/647.226;
+//	double _rho = rho/317.763;
+//	double L[3][2] = {{1,1},{2,2},{3,3}};
+
+
+	double lamda = 0;
+
+	for (size_t i=0; i<4; i++)
+	{
+//		lamda += L[i]/pow(_T,i);
+	}
+
+	return sqrt(_T)/lamda;
+}
+/**************************************************************************************************************
  *  Thermal conductivity equation
  *  IAPWS-IF97
  *  Revised Release, August 2008
@@ -1173,8 +1195,9 @@ double IF97::ThermalConductivity( const double p, const double T) const
 		((T>523.15)&&(T<=673.15)&&(p<=150.0e6)) ||
 		((T>673.15)&&(T<=1073.15)&&(p<=100.0e6)))
 	{
-		double rho = Density(p, T);
-		return lambda_0(T)+lambda_1(T, rho)+lambda_2(T, rho);
+	//	double rho = Density(p, T);
+		return 0;
+	//	return lambda_0(T)+lambda_1(T, rho)+lambda_2(T, rho);
 	}
 	else return -1;
 }
