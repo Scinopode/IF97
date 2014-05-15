@@ -77,14 +77,14 @@ short IF97::RegionSelection (const double p, const double T) const
 		return 5;
 	//Region 1:
 	const double saturationPressure = SaturationPressure(T);
-	if ((T>=273.15)&&(T<=623.15)&&(p>=saturationPressure)&&(p<=100e6))
+	if ((T>=273.15)&&(T<=623.15)&&(p>=saturationPressure)&&(p<=100.0e6))
 		return 1;
 	//Region 2:
 	const double p_B23 = B23Equation_p(T);
 	if (
 			((T>=273.15)&&(T<=623.15)  && (p>=0) && (p<=saturationPressure)) ||
 			((T>623.15) &&(T<=863.15)  && (p>0)  && (p<p_B23)) ||
-			((T>863.15) &&(T<=1073.15) && (p>0)  && (p<100e6))	)
+			((T>863.15) &&(T<=1073.15) && (p>0)  && (p<=100.0e6))	)
 		return 2;
 	//Region 3:
 	const double T_B23 = B23Equation_T(p);
@@ -1140,4 +1140,22 @@ double IF97::SpeedOfSound( const double p, const double T) const
 	}
 	default: return -1;
 	}
+}
+/**************************************************************************************************************
+ *  Thermal conductivity equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::ThermalConductivity( const double p, const double T) const
+{
+	if (((T>=273.15)&&(T<=398.15)&&(p<=400.0e6)) ||
+		((T>398.15)&&(T<=523.15)&&(p<=200.0e6)) ||
+		((T>523.15)&&(T<=673.15)&&(p<=150.0e6)) ||
+		((T>673.15)&&(T<=1073.15)&&(p<=100.0e6)))
+	{
+		double rho = Density(p, T);
+		return lambda_0(T)+lambda_1(T, rho)+lambda_2(T, rho);
+	}
+	else return -1;
 }

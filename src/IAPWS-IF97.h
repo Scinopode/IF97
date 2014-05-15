@@ -106,6 +106,7 @@ private:
 public:
 	IF97();
 
+	double SpecificVolume( const double p, const double T) const;
 	double Density( const double p, const double T) const;
 	double DensityBisectionR3(const double p, const double T) const;
 
@@ -116,13 +117,10 @@ public:
 	double SpecificIsochoricHeatcapacity ( const double p, const double T) const;
 	double SpeedOfSound ( const double p, const double T) const;
 
-
-
-	double SpecificVolume( const double p, const double T) const;
-
 	double SaturationPressure (const double T) const;
 	double SaturationTemperature (const double p) const;
 
+	double ThermalConductivity (const double p, const double T) const;
 
 };
 
