@@ -11,7 +11,9 @@
 #include <numeric>
 #include <cassert>
 #include <math.h>
+#include <functional>
 
+#include "Iterators.h"
 #include "IAPWS-IF97.h"
 
 
@@ -793,7 +795,7 @@ double IF97::Density( const double p, const double T) const
 		return 1/(specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T)));
 		break;
 	case 3:
-		return DensityBisectionR3(p,T);
+			return DensityRegion3(p,T);
 		break;
 	case 5:
 		return 1/(specificGasConstant*T/p_star_Region5*(gamma_p_0_region5(p)+gamma_p_r_region5(p,T)));
@@ -802,46 +804,25 @@ double IF97::Density( const double p, const double T) const
 	}
 }
 /**************************************************************************************************************
- *  Iterative Density function for region 3 (Bisection method)
+ *  Iterative Density function for region 3
  *  IAPWS-IF97
  *  Revised Release, August 2007
  *  NB, May 2014
  **************************************************************************************************************/
-
-double IF97::DensityBisectionR3(const double p, const double T) const
+double IF97::DensityRegion3(const double p, const double T) const
 {
-	double eps = 1e-3;
-	double a = 800;
-	double b = 1;
 
-	double fa = p-PressureRegion3(a,T);
-	double fb = p-PressureRegion3(b,T);
+	// Pressure as lambda function with bound p and T; requires only density as argument;
+	auto Pressure = [&p, &T, this](const double c) { return p-this->PressureRegion3(c,T); };
 
-	if (fa*fb>0)
-	{
-		std::cout << "Error in Bisection iteration method. No root within given interval.\n";
-		return -1;
-	}
+	double rho_max = 800.; //should be larger than max density in region 3
+	double rho_min = 1.; //should be much smaller than min density in region 3
 
-	int iteration = 0;
-	const int maxIteration = 1000;
+	//double density = Bisection(Pressure,rho_min,rho_max);
+	double density = zbrent(Pressure,rho_min,rho_max,1e-9);
 
-	while (iteration < maxIteration)
-	{
-		double c = 0.5*(a+b);
-		double fc = p-PressureRegion3(c,T);
+	return density;
 
-		if (fabs(fc) < eps)
-		{
-			return c;
-		}
-		if (fa*fc > 0)
-			a=c;
-		else
-			b=c;
-
-	}
-	return -1;
 }
 
 /**************************************************************************************************************
@@ -864,7 +845,7 @@ double IF97::SpecificVolume( const double p, const double T) const
 		return specificGasConstant*T/p_star_Region2*(gamma_p_0_region2(p)+gamma_p_r_region2(p,T));
 		break;
 	case 3:
-		return 1.0/DensityBisectionR3(p,T);
+		return 1.0/DensityRegion3(p,T);
 		break;
 	case 5:
 		return specificGasConstant*T/p_star_Region5*(gamma_p_0_region5(p)+gamma_p_r_region5(p,T));
@@ -907,7 +888,7 @@ double IF97::SpecificIsobaricHeatcapacity( const double p, const double T) const
 		break;
 	case 3:
 	{
-		double rho = DensityBisectionR3(p,T);
+		double rho = DensityRegion3(p,T);
 		double delta = rho/criticalDensity;
 		double tau = criticalTemperature/T;
 		double phi_d = phi_d_region3(rho,T);
@@ -947,7 +928,7 @@ double IF97::SpecificEntropy( const double p, const double T) const
 		break;
 	case 3:
 	{
-		double rho = DensityBisectionR3(p,T);
+		double rho = DensityRegion3(p,T);
 		return specificGasConstant*(criticalTemperature*phi_t_region3(rho,T)-phi_region3(rho,T));
 	}
 		return -1;
@@ -989,7 +970,7 @@ double IF97::SpecificIsochoricHeatcapacity( const double p, const double T) cons
 		break;
 	}
 
-	case 3:
+	case 3://Todo: c_p for region 3
 		return -1;
 		break;
 	case 5:
@@ -1035,7 +1016,7 @@ double IF97::SpecificInternalEnergy( const double p, const double T) const
 
 	case 3:
 	{
-		double rho = DensityBisectionR3(p,T);
+		double rho = DensityRegion3(p,T);
 		return specificGasConstant*criticalTemperature*phi_t_region3(rho,T);
 		break;
 	}
@@ -1070,7 +1051,7 @@ double IF97::SpecificEnthalpy( const double p, const double T) const
 		break;
 	case 3:
 	{
-		double rho = DensityBisectionR3(p,T);
+		double rho = DensityRegion3(p,T);
 		return specificGasConstant*T*(criticalTemperature/T*phi_t_region3(rho,T)+rho/criticalDensity*phi_d_region3(rho,T));
 		break;
 	}
@@ -1125,7 +1106,7 @@ double IF97::SpeedOfSound( const double p, const double T) const
 
 	case 3:
 	{
-		double rho = DensityBisectionR3(p,T);
+		double rho = DensityRegion3(p,T);
 		double delta = rho/criticalDensity;
 		double tau = criticalTemperature/T;
 

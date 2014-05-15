@@ -104,12 +104,15 @@ private:
 
 	// equations for thermal conductivity
 	double lambda_0(const double T) const;
+	double lambda_1(const double T, const double rho) const;
+	double lambda_2(const double T, const double rho) const;
+
 public:
 	IF97();
 
 	double SpecificVolume( const double p, const double T) const;
 	double Density( const double p, const double T) const;
-	double DensityBisectionR3(const double p, const double T) const;
+	double DensityRegion3(const double p, const double T) const;
 
 	double SpecificEntropy ( const double p, const double T) const;
 	double SpecificInternalEnergy ( const double p, const double T) const;
