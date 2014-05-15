@@ -103,6 +103,8 @@ private:
 	double B23Equation_T (const double p) const;
 	double B23Equation_p (const double T) const;
 
+	// equations for thermal conductivity
+	double lambda_0(const double T) const;
 public:
 	IF97();
 

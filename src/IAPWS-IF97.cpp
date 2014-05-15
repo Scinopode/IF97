@@ -1142,6 +1142,25 @@ double IF97::SpeedOfSound( const double p, const double T) const
 	}
 }
 /**************************************************************************************************************
+ *  Lambda_0 equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::lambda_0(const double T) const
+{
+	double _T = T/647.226;
+	double L[4] = {1.0, 6.978267, 2.599096, -0.998254};
+	double lamda = 0;
+
+	for (size_t i=0; i<4; i++)
+	{
+		lamda += L[i]/pow(_T,i);
+	}
+
+	return sqrt(_T)/lamda;
+}
+/**************************************************************************************************************
  *  Thermal conductivity equation
  *  IAPWS-IF97
  *  Revised Release, August 2008
