@@ -65,6 +65,25 @@ const short IF97::J0Region2[9] = {0, 1, -5, -4, -3, -2, -1, 2, 3};
 const short IF97::J0Region5[6]= {0, 1, -3, -2, -1, 2};
 const short IF97::JRegion5[6]= {1, 2, 3, 3, 9, 7};
 
+const double IF97::specificGasConstant = 0.461526e3; // J/kg/K
+const double IF97::criticalTemperature = 647.096; //K
+const double IF97::criticalPressure = 22.064; // MPa
+const double IF97::criticalDensity = 322; // kg/m^3
+
+const double IF97::tripplePointTemperature = 273.16; //K
+const double IF97::tripplePointpressure = 611.657; // Pa
+
+const double IF97::p_star_Region1 = 16.53e6; // Pa
+const double IF97::p_star_Region2 = 1.0e6; // Pa
+const double IF97::p_star_Region4 = 1.0e6; // Pa
+const double IF97::p_star_Region5 = 1.0e6; // Pa
+
+const double IF97::T_star_Region1 = 1386; // K
+const double IF97::T_star_Region2 = 540; // K
+const double IF97::T_star_Region4 = 1; // K
+const double IF97::T_star_Region5 = 1000; // K
+
+
 /*******************************************************************************************************
  * Empty constructor
  ******************************************************************************************************/

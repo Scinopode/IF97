@@ -32,25 +32,24 @@ private:
 	static const short J0Region5[6];
 	static const short JRegion5[6];
 
-	static const double specificGasConstant = 0.461526e3; // J/kg/K
-	static const double criticalTemperature = 647.096; //K
-	static const double criticalPressure = 22.064; // MPa
-	static const double criticalDensity = 322; // kg/m^3
+	static const double specificGasConstant; // J/kg/K
 
-	static const double tripplePointTemperature = 273.16; //K
-	static const double tripplePointpressure = 611.657; // Pa
+	static const double criticalTemperature; //K
+	static const double criticalPressure; // MPa
+	static const double criticalDensity; // kg/m^3
 
-	static const double p_star_Region1 = 16.53e6; // Pa
-	static const double p_star_Region2 = 1.0e6; // Pa
-	static const double p_star_Region4 = 1.0e6; // Pa
-	static const double p_star_Region5 = 1.0e6; // Pa
+	static const double tripplePointTemperature; //K
+	static const double tripplePointpressure; // Pa
 
+	static const double p_star_Region1; // Pa
+	static const double p_star_Region2; // Pa
+	static const double p_star_Region4; // Pa
+	static const double p_star_Region5; // Pa
 
-
-	static const double T_star_Region1 = 1386; // K
-	static const double T_star_Region2 = 540; // K
-	static const double T_star_Region4 = 1; // K
-	static const double T_star_Region5 = 1000; // K
+	static const double T_star_Region1; // K
+	static const double T_star_Region2; // K
+	static const double T_star_Region4; // K
+	static const double T_star_Region5; // K
 
 	// Gibbs energy function and its derivatives for Region 1
 	double gamma_region1 (const double p, const double T) const;
