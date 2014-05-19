@@ -1237,9 +1237,8 @@ double IF97::ThermalConductivity( const double p, const double T) const
 		((T>523.15)&&(T<=673.15)&&(p<=150.0e6)) ||
 		((T>673.15)&&(T<=1073.15)&&(p<=100.0e6)))
 	{
-	//	double rho = Density(p, T);
-		return 0;
-	//	return lambda_0(T)+lambda_1(T, rho)+lambda_2(T, rho);
+		double rho = Density(p, T);
+		return 0.4945*(lambda_0(T)*lambda_1(T, rho)+lambda_2(T, rho));
 	}
 	else return -1;
 }
