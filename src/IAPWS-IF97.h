@@ -107,6 +107,12 @@ private:
 	double lambda_1(const double T, const double rho) const;
 	double lambda_2(const double T, const double rho) const;
 
+	// equations for viscosity
+	double mu_0(const double T) const;
+	double mu_1(const double T, const double rho) const;
+
+
+
 public:
 	IF97();
 

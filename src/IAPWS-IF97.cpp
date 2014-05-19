@@ -863,7 +863,6 @@ double IF97::SpecificVolume( const double p, const double T) const
 double IF97::PressureRegion3( const double rho, const double T) const
 {
 	double delta = rho/criticalDensity;
-
 	return rho*specificGasConstant*T*delta*phi_d_region3(rho,T);
 }
 
@@ -1169,18 +1168,61 @@ double IF97::lambda_0(const double T) const
 double IF97::lambda_1(const double T, const double rho) const
 {
 	double _T = T/647.226;
-//	double _rho = rho/317.763;
-//	double L[3][2] = {{1,1},{2,2},{3,3}};
-
+	double _rho = rho/317.763;
+	double L[5][6] = {{1.3293046,-0.40452437,0.24409490,0.018660751,-0.12961068,0.044809953},
+			{1.7018363,-2.2156845,1.6511057,-0.7673602,0.37283344,-0.11203160},
+			{5.2243158,-10.124111,4.9874687,-0.27297694,-0.43083393,0.13333849},
+			{8.7127675,-9.5000611,4.3786606,-0.91783782,0.0,0.0},
+			{-1.8525999,0.9340469,0.0,0.0,0.0,0.0}};
 
 	double lamda = 0;
 
-	for (size_t i=0; i<4; i++)
-	{
-//		lamda += L[i]/pow(_T,i);
-	}
+	for (size_t i=0; i<5; i++)
+		for (size_t j=0; j<6; j++)
+		{
+			lamda += L[i][j]*pow(1/_T-1, i)*pow(_rho-1, j);
+		}
 
-	return sqrt(_T)/lamda;
+	return exp(lamda*_rho);
+}
+/**************************************************************************************************************
+ *  Mu_0 equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::mu_0(const double T) const
+{
+	double _T = T/647.226;
+
+	return 0;
+}
+/**************************************************************************************************************
+ *  Mu_0 equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::mu_1(const double T, const double rho) const
+{
+	double _T = T/647.226;
+
+	return 0;
+}
+/**************************************************************************************************************
+ *  Lambda_2 equation
+ *  IAPWS-IF97
+ *  Revised Release, August 2008
+ *  NB, May 2014
+ **************************************************************************************************************/
+double IF97::lambda_2(const double T, const double rho) const
+{
+	// Lambda_2 will be ignored at the moment, since it is unimportant in other than the critical region.
+	// To solve Lambda_2, we need to account for dp/dt at constant rho, which could be expansive.
+	// Feel free to implement lamda_3 by yourself, the IAPWS Formulation for General and Scientific use
+	// is recommended to produce the partial derivative.
+
+	return 0;
 }
 /**************************************************************************************************************
  *  Thermal conductivity equation
